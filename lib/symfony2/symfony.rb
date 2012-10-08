@@ -52,7 +52,11 @@ namespace :symfony do
     task :dump, :roles => :app,  :except => { :no_release => true } do
       pretty_print "--> Dumping all assets to the filesystem"
 
-      run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} assetic:dump --env=#{symfony_env_prod} --no-debug'"
+      if symfony_env_prod == 'dev'
+        run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} assetic:dump --env=#{symfony_env_prod}'"
+      else
+        run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} assetic:dump --env=#{symfony_env_prod} --no-debug'"
+      end
       puts_ok
     end
   end
