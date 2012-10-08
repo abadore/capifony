@@ -114,7 +114,7 @@ namespace :symfony do
     desc "Updates composer"
     task :update, :roles => :app, :except => { :no_release => true } do
       pretty_print "--> Updating Composer"
-      try_sudo "#{composer_bin} self-update"
+      run "#{composer_bin} self-update"
       puts_ok
     end
 

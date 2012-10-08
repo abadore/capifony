@@ -27,7 +27,7 @@ namespace :deploy do
           "setfacl -R -m u:#{user}:rwx -m u:#{webserver_user}:rwx %s",
           "setfacl -dR -m u:#{user}:rwx -m u:#{webserver_user}:rwx %s"
         ],
-        :chown => ["chown -R #{webserver_user} %s"]
+        :chown => ["chown -R #{webserver_user} %s", "chmod -R g+w %s"]
       }
 
       if methods[permission_method]
@@ -88,13 +88,13 @@ namespace :deploy do
 
   desc "Updates latest release source path"
   task :finalize_update, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
+    run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
 
     pretty_print "--> Creating cache directory"
 
-    run "#{try_sudo} sh -c 'if [ -d #{latest_release}/#{cache_path} ] ; then rm -rf #{latest_release}/#{cache_path}; fi'"
-    run "#{try_sudo} sh -c 'mkdir -p #{latest_release}/#{cache_path} && chmod -R 0777 #{latest_release}/#{cache_path}'"
-    run "#{try_sudo} chmod -R g+w #{latest_release}/#{cache_path}"
+    run "sh -c 'if [ -d #{latest_release}/#{cache_path} ] ; then rm -rf #{latest_release}/#{cache_path}; fi'"
+    run "sh -c 'mkdir -p #{latest_release}/#{cache_path} && chmod -R 0777 #{latest_release}/#{cache_path}'"
+    run "chmod -R g+w #{latest_release}/#{cache_path}"
 
     puts_ok
 
@@ -109,7 +109,7 @@ namespace :deploy do
       else
         pretty_print "--> Normalizing asset timestamps"
 
-        run "#{try_sudo} find #{asset_paths} -exec touch -t #{stamp} {} ';' &> /dev/null || true", :env => { "TZ" => "UTC" }
+        run "find #{asset_paths} -exec touch -t #{stamp} {} ';' &> /dev/null || true", :env => { "TZ" => "UTC" }
         puts_ok
       end
     end
