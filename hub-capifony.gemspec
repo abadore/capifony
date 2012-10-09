@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
 
-  spec.name = 'capifony'
+  spec.name = 'hub-capifony'
   spec.version = '2.1.16'
   spec.platform = Gem::Platform::RUBY
   spec.description = <<-DESC
