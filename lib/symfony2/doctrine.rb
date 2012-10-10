@@ -33,11 +33,12 @@ namespace :symfony do
           case action.to_s
           when "create"
             pretty_print "--> Creating databases"
+            run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:database:create --env=#{symfony_env_prod}'", :once => true
           when "drop"
             pretty_print "--> Dropping databases"
+            run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:database:drop --env=#{symfony_env_prod} --force'", :once => true
           end
 
-          run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:database:#{action.to_s} --env=#{symfony_env_prod}'", :once => true
           puts_ok
         end
       end
