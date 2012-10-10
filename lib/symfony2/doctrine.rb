@@ -43,6 +43,13 @@ namespace :symfony do
       end
     end
 
+    namespace :fixtures do
+      desc "Load fixtures"
+      task :load, :roles => :app, :except => { :no_release => true } do
+        run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:fixtures:load --em=sql_write --env=#{symfony_env_prod}'", :once => true
+      end
+    end
+
     namespace :schema do
       desc "Processes the schema and either create it directly on EntityManager Storage Connection or generate the SQL output"
       task :create, :roles => :app, :except => { :no_release => true } do
