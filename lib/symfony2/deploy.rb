@@ -33,12 +33,10 @@ namespace :deploy do
       if methods[permission_method]
         pretty_print "--> Setting permissions"
 
-        if fetch(:use_sudo, false)
+        if fetch(:use_sudo, false) || permission_method == :chown
           methods[permission_method].each do |cmd|
             sudo sprintf(cmd, dirs.join(' '))
           end
-        elsif permission_method == :chown
-          puts "    You can't use chown method without sudoing"
         else
           dirs.each do |dir|
             is_owner = (capture "`echo stat #{dir} -c %U`").chomp == user
