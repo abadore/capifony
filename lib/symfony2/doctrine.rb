@@ -47,24 +47,32 @@ namespace :symfony do
     namespace :fixtures do
       desc "Load fixtures"
       task :load, :roles => :app, :except => { :no_release => true } do
-        run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:fixtures:load --em=sql_write --env=#{symfony_env_prod}'", :once => true
+        pretty_print "--> Loading fixtures"
+        run "sh -c 'cd #{latest_release} && yes | #{php_bin} #{symfony_console} doctrine:fixtures:load --em=sql_write --env=#{symfony_env_prod}'", :once => true
+        puts_ok
       end
     end
 
     namespace :schema do
       desc "Processes the schema and either create it directly on EntityManager Storage Connection or generate the SQL output"
       task :create, :roles => :app, :except => { :no_release => true } do
+        pretty_print "--> Creating database schema"
         run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:schema:create --env=#{symfony_env_prod}'", :once => true
+        puts_ok
       end
 
       desc "Drops the complete database schema of EntityManager Storage Connection or generate the corresponding SQL output"
       task :drop, :roles => :app, :except => { :no_release => true } do
+        pretty_print "--> Dropping database schema"
         run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:schema:drop --env=#{symfony_env_prod}'", :once => true
+        puts_ok
       end
 
       desc "Updates database schema of EntityManager Storage Connection"
       task :update, :roles => :app, :except => { :no_release => true } do
+        pretty_print "--> Updating database schema"
         run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} doctrine:schema:update --force --env=#{symfony_env_prod}'", :once => true
+        puts_ok
       end
     end
 
