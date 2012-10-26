@@ -7,7 +7,6 @@ load 'symfony2/deploy'
 load 'symfony2/doctrine'
 load 'symfony2/propel'
 load 'symfony2/symfony'
-load 'symfony2/web'
 
 require 'yaml'
 
@@ -93,6 +92,7 @@ set(:symfony_version)       { guess_symfony_version }
 # If set to false, it will never ask for confirmations (migrations task for instance)
 # Use it carefully, really!
 set :interactive_mode,      true
+
 
 def load_database_config(data, env)
   parameters = YAML::load(data)
