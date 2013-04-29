@@ -114,7 +114,7 @@ end
 
 after "deploy:finalize_update" do
   if use_composer
-    if update_vendors
+        if update_vendors
       symfony.composer.update
     else
       symfony.composer.install

@@ -170,7 +170,7 @@ namespace :symfony do
     task :clear, :roles => :app, :except => { :no_release => true } do
       pretty_print "--> Clearing cache"
 
-      run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} cache:clear --env=#{symfony_env_prod}'"
+      run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} cache:clear --env=#{symfony_env_prod} --no-debug'"
       run "chmod -R g+w #{latest_release}/#{cache_path}"
       puts_ok
     end
@@ -179,7 +179,7 @@ namespace :symfony do
     task :warmup, :roles => :app, :except => { :no_release => true } do
       pretty_print "--> Warming up cache"
 
-      run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} cache:warmup --env=#{symfony_env_prod}'"
+      run "sh -c 'cd #{latest_release} && #{php_bin} #{symfony_console} cache:warmup --env=#{symfony_env_prod} --no-debug'"
       run "chmod -R g+w #{latest_release}/#{cache_path}"
       puts_ok
     end
